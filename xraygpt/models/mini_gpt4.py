@@ -119,7 +119,7 @@ class MiniGPT4(Blip2Base):
         # Load Llama tokenizer using custom token subsystem
         self.token_subsystem = TokenSubsystem(llama_model)
         # Create alias for backward compatibility
-        self.llama_tokenizer = self.token_subsystem
+        #self.llama_tokenizer = self.token_subsystem
 
         # Load Llama language model, optionally with device_map for low-resource
         if self.low_resource:
