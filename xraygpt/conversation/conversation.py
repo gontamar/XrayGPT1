@@ -218,12 +218,13 @@ class Chat:
             # only add bos to the first seg
             for i, seg in enumerate(prompt_segs)
         ]
+        print("Prompt:", prompt,"\n")
+        print("Prompt_segs:", prompt_segs,"\n")
+        for i, seg_t in enumerate(seg_tokens):
+            tokens = self.token_subsystem.tokenizer.convert_ids_to_tokens(seg_t.squeeze().tolist())
+            print(f"Segment {i} tokens:", tokens,"\n")
+        print("Seg_tokens:", seg_tokens,"\n")
         seg_embs = [self.model.llama_model.model.embed_tokens(seg_t) for seg_t in seg_tokens]
-        print("Prompt:", prompt)
-        print("Prompt_segs:", prompt_segs)
-        print("Seg_tokens:", seg_tokens)
-        print("Seg_embs:", seg_embs)
         mixed_embs = [emb for pair in zip(seg_embs[:-1], img_list) for emb in pair] + [seg_embs[-1]]
         mixed_embs = torch.cat(mixed_embs, dim=1)
-        print("Mixed_embs:", mixed_embs)
         return mixed_embs
